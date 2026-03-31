@@ -6,6 +6,7 @@ using SongLibrary.SongModule.Services;
 using SongLibrary.SongModule.Data;
 using SongLibrary.UserModule;
 using SongLibrary;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,4 +50,5 @@ app.UseAuthorization();
 app.MapSongEndpoints();
 app.MapAccountEndpoints();
 
+app.MapGet("/", () => Results.Redirect("/swagger"));
 app.Run();
