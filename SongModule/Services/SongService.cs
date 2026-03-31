@@ -54,19 +54,15 @@ class SongService : ISongService
         return song;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(Song song)
     {
-        var song = await GetOneAsync(id);
-
-        db.Songs.Remove(song!);
+        db.Songs.Remove(song);
         await db.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(int id, UpdateSongDto updatedSong)
+    public async Task UpdateAsync(Song song, UpdateSongDto updatedSong)
     {
-        var song = await GetOneAsync(id);
-
-        song!.Title = updatedSong.Title ?? song.Title;
+        song.Title = updatedSong.Title ?? song.Title;
         song.Genre = updatedSong.Genre ?? song.Genre;
         song.Album = updatedSong.Album ?? song.Album;
         song.IsListened = updatedSong.IsListened ?? song.IsListened;

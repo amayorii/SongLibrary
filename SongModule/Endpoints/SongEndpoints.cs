@@ -100,9 +100,9 @@ static class SongEndpoints
             return TypedResults.NotFound();
 
         if (song?.AuthorId != userId)
-            return TypedResults.Unauthorized();
+            return TypedResults.Forbid();
 
-        await songService.UpdateAsync(id, songDto);
+        await songService.UpdateAsync(song!, songDto);
 
         return TypedResults.NoContent();
     }
@@ -117,9 +117,9 @@ static class SongEndpoints
             return TypedResults.NotFound();
 
         if (userId != song.AuthorId)
-            return TypedResults.Unauthorized();
+            return TypedResults.Forbid();
 
-        await songService.DeleteAsync(id);
+        await songService.DeleteAsync(song);
 
         return TypedResults.NoContent();
     }
