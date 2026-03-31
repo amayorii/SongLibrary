@@ -8,7 +8,7 @@ interface ISongService
     Task<(IEnumerable<Song> songs, int totalSongs)> GetAllAsync(SongQueryObject query);
     Task<Song?> GetOneAsync(int id);
     Task<Song> CreateAsync(CreateSongDto songDto, string authorId, string authorFullName);
-    Task<bool> UpdateAsync(int id, UpdateSongDto updatedSong);
+    Task UpdateAsync(int id, UpdateSongDto updatedSong);
     Task<bool> DeleteAsync(int id);
     Task<Song?> PlaySong(int id);
 }

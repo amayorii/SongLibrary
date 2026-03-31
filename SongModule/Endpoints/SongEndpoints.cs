@@ -90,12 +90,18 @@ static class SongEndpoints
         return TypedResults.Created($"/songs/{song.Id}", song);
     }
 
-    static async Task<IResult> UpdateSong(ISongService songService, int id, UpdateSongDto songDto)
+    static async Task<IResult> UpdateSong(ISongService songService, int id, UpdateSongDto songDto, ClaimsPrincipal user)
     {
-        var success = await songService.UpdateAsync(id, songDto);
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var song = await songService.GetOneAsync(id);
 
-        if (!success)
+        if (song is null)
             return TypedResults.NotFound();
+
+        if (song?.AuthorId != userId)
+            return TypedResults.Unauthorized();
+
+        await songService.UpdateAsync(id, songDto);
 
         return TypedResults.NoContent();
     }

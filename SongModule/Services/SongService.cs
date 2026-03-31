@@ -66,22 +66,17 @@ class SongService : ISongService
         return true;
     }
 
-    public async Task<bool> UpdateAsync(int id, UpdateSongDto updatedSong)
+    public async Task UpdateAsync(int id, UpdateSongDto updatedSong)
     {
         var song = await GetOneAsync(id);
 
-        if (song is null) return false;
-
-        song.Title = updatedSong.Title ?? song.Title;
-        song.Author = updatedSong.Author ?? song.Author;
+        song!.Title = updatedSong.Title ?? song.Title;
         song.Genre = updatedSong.Genre ?? song.Genre;
         song.Album = updatedSong.Album ?? song.Album;
         song.IsListened = updatedSong.IsListened ?? song.IsListened;
         song.ListenCount = updatedSong.ListenCount ?? song.ListenCount;
-        song.Rating = updatedSong.Rating ?? song.Rating;
 
         await db.SaveChangesAsync();
-        return true;
     }
 
     public async Task<Song?> PlaySong(int id)
