@@ -78,13 +78,14 @@ static class SongEndpoints
 
         // get user id from claims
         var authorId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var authorFullName = user.FindFirstValue(ClaimTypes.GivenName);
 
-        if (string.IsNullOrEmpty(authorId))
+        if (string.IsNullOrEmpty(authorId) || string.IsNullOrEmpty(authorFullName))
         {
             return TypedResults.Unauthorized();
         }
 
-        var song = await songService.CreateAsync(songDto, authorId);
+        var song = await songService.CreateAsync(songDto, authorId, authorFullName);
 
         return TypedResults.Created($"/songs/{song.Id}", song);
     }

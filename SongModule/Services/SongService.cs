@@ -42,10 +42,11 @@ class SongService : ISongService
         return await db.Songs.FindAsync(id);
     }
 
-    public async Task<Song> CreateAsync(CreateSongDto songDto, string authorId)
+    public async Task<Song> CreateAsync(CreateSongDto songDto, string authorId, string authorFullName)
     {
         var song = songDto.ToSong();
         song.AuthorId = authorId;
+        song.Author = authorFullName;
 
         db.Songs.Add(song);
         await db.SaveChangesAsync();

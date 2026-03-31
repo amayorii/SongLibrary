@@ -41,7 +41,8 @@ class AccountService : IAccountService
         {
             new(ClaimTypes.Email, user.Email!),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(ClaimTypes.NameIdentifier, user.Id)
+            new(ClaimTypes.NameIdentifier, user.Id),
+            new(ClaimTypes.GivenName, $"{user.FirstName} {user.LastName}")
         };
 
         var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("TseMiySuperSecretniyKlyuchDlyaTokeniv12345!"));

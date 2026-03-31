@@ -10,7 +10,6 @@ static class SongMapper
         return new()
         {
             Title = songDto.Title,
-            Author = songDto.Author,
             Album = songDto.Album,
             Rating = songDto.Rating,
             Genre = songDto.Genre

@@ -7,9 +7,6 @@ class CreateSongDto
     [StringLength(40), Required]
     public required string Title { get; set; }
 
-    [StringLength(30), Required]
-    public required string Author { get; set; }
-
     [StringLength(30)]
     public string? Album { get; set; } = null;
 
