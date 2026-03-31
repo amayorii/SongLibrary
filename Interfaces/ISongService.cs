@@ -9,6 +9,6 @@ interface ISongService
     Task<Song?> GetOneAsync(int id);
     Task<Song> CreateAsync(CreateSongDto songDto, string authorId, string authorFullName);
     Task UpdateAsync(int id, UpdateSongDto updatedSong);
-    Task<bool> DeleteAsync(int id);
+    Task DeleteAsync(int id);
     Task<Song?> PlaySong(int id);
 }

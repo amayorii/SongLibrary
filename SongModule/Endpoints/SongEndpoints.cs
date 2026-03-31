@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using MiniValidation;
 using SongLibrary.Interfaces;
 using SongLibrary.SongModule.Dtos;
@@ -106,12 +107,19 @@ static class SongEndpoints
         return TypedResults.NoContent();
     }
 
-    static async Task<IResult> DeleteSong(ISongService songService, int id)
+    static async Task<IResult> DeleteSong(ISongService songService, int id, ClaimsPrincipal user)
     {
-        var success = await songService.DeleteAsync(id);
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        if (!success)
+        var song = await songService.GetOneAsync(id);
+
+        if (song is null)
             return TypedResults.NotFound();
+
+        if (userId != song.AuthorId)
+            return TypedResults.Unauthorized();
+
+        await songService.DeleteAsync(id);
 
         return TypedResults.NoContent();
     }

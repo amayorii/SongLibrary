@@ -54,16 +54,12 @@ class SongService : ISongService
         return song;
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
         var song = await GetOneAsync(id);
 
-        if (song is null) return false;
-
-        db.Songs.Remove(song);
+        db.Songs.Remove(song!);
         await db.SaveChangesAsync();
-
-        return true;
     }
 
     public async Task UpdateAsync(int id, UpdateSongDto updatedSong)
