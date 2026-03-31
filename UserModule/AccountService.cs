@@ -21,7 +21,9 @@ class AccountService : IAccountService
         var user = new AppUser
         {
             Email = registerDto.Email,
-            UserName = registerDto.Email
+            UserName = registerDto.Email,
+            FirstName = registerDto.FirstName,
+            LastName = registerDto.LastName,
         };
         var result = await userManager.CreateAsync(user, registerDto.Password);
 

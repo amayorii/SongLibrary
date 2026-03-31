@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MiniValidation;
 using SongLibrary.Interfaces;
 using SongLibrary.SongModule.Dtos;
@@ -70,12 +71,20 @@ static class SongEndpoints
         return TypedResults.Ok(song);
     }
 
-    static async Task<IResult> CreateSong(ISongService songService, CreateSongDto songDto)
+    static async Task<IResult> CreateSong(ISongService songService, CreateSongDto songDto, ClaimsPrincipal user)
     {
         if (!MiniValidator.TryValidate(songDto, out var errors)) // attribute validation 
             return TypedResults.ValidationProblem(errors);
 
-        var song = await songService.CreateAsync(songDto);
+        // get user id from claims
+        var authorId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrEmpty(authorId))
+        {
+            return TypedResults.Unauthorized();
+        }
+
+        var song = await songService.CreateAsync(songDto, authorId);
 
         return TypedResults.Created($"/songs/{song.Id}", song);
     }
